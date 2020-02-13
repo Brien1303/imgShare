@@ -30,3 +30,40 @@ Template.myGallery.events({
     });
   },
 });
+
+	Template.addImage.events({
+	 'click .js-addImage'(event, instance) {
+  	console.log("added image");
+  },
+  'click .js-close'(event, instance) {
+  	console.log("closing image");
+  },
+  
+  'click .js-saving'(event, instance) {
+  	var theTitle = $ ("#imgTitle") .val()
+  	console.log("Saving Image with title: "+theTitle );
+
+  	var thePath = $ ("#imgPath") .val()
+  	console.log("Saving Image with path: "+thePath );
+
+  	var theDescription = $ ("#imgDecription") .val()
+  	console.log("Saving Image with description: "+theDescription );
+  	imagesdb.insert({
+		"path": thePath,
+		"title": theTitle,
+		"description": theDescription
+
+
+	});
+  		console.log ("saving...");
+				$("#js-addImageModal").modal("hide");
+				$("#imgTitle").val("");
+				$("#imgPath").val("");
+				$("#imgDecription").val("");
+
+		}
+
+});
+ 
+
+ 
