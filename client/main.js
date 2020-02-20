@@ -29,6 +29,28 @@ Template.myGallery.events({
     	console.log(myId);
     });
   },
+  	'click .js-edit' (event, instance){
+  		console.log ("let's edit");
+  		var myId = this._id;
+  		$("#EditImageModal").modal("show");
+  		$("#"+this._id);
+  		console.log(this._id);
+  		var eTitle = imagesdb.findOne({_id:myId}).title;
+  		console.log("title is "+ eTitle);
+  		$ ("#editTitle").val(eTitle);
+
+  		var ePath = imagesdb.findOne({_id:myId}).path;
+  		console.log("path is "+ ePath);
+  		$ ("#editPath").val(ePath);
+
+  		var eDescription = imagesdb.findOne({_id:myId}).desc;
+  		console.log("description is "+ eDescription);
+  		$ ("#editDescription").val(eDescription);
+
+  		$(".editHolder").attr("src", ePath);
+
+  		$("#editId").val(myId);
+  	},
 });
 
 	Template.addImage.events({
@@ -46,12 +68,12 @@ Template.myGallery.events({
   	var thePath = $ ("#imgPath") .val()
   	console.log("Saving Image with path: "+thePath );
 
-  	var theDescription = $ ("#imgDecription") .val()
+  	var theDescription = $ ("#imgDescription") .val()
   	console.log("Saving Image with description: "+theDescription );
   	imagesdb.insert({
 		"path": thePath,
 		"title": theTitle,
-		"description": theDescription
+		"desc": theDescription
 
 
 	});
@@ -59,11 +81,32 @@ Template.myGallery.events({
 				$("#js-addImageModal").modal("hide");
 				$("#imgTitle").val("");
 				$("#imgPath").val("");
-				$("#imgDecription").val("");
+				$("#imgDescription").val("");
 
+		},
+
+		'input #imgPath'(event, instance){
+			$(".mountains").attr ("src", $ ("#imgPath") .val());
+			console.log($("#imgPath").val());
 		}
 
 });
  
+ Template.editImage.events({
+ 	'click .js-updatingImage'(event, instance){
+		var newPath= $("#editPath").val();
+		var newTitle= $("#editTitle").val();
+		var newDescription= $("#editDescription").val();
+		var editId = $("#editId").val();
+		imagesdb.update({_id:editId},
+			{$set:{
+				"title": newTitle,
+				"pathe": newPath,
+				"desc": newDescription
+			}}
+		);
+		// console.log("updating "+updateId+" Image with title:"+newTitle+" and its path is"+newPath+" and its description is"+newDescription);
+	}
+ });
 
  

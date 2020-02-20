@@ -15,3 +15,24 @@ body {
 .icolor{
 	color: red;
 }
+
+.mountains{
+	margin-bottom: 10px;
+	width: 350px;
+		height:350px;
+}
+
+.newcolour{
+	color:pink ;
+}
+
+.newcolour, .icolor{
+	font-size: 2em;
+	cursor:pointer;
+}
+
+.editHolder{
+	margin-bottom: 10px;
+	width: 350px;
+		height:350px;
+}
