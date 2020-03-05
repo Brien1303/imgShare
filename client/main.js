@@ -21,14 +21,21 @@ Template.myGallery.helpers({
 });
 
 Template.myGallery.events({
-  'click .js-delete'(event, instance) {
-  	console.log("delete");
-    var myId = this._id;
-    $("#"+this._id).fadeOut('slow', function(){
+   'click .js-delete'(event, instance) {
+  // 	console.log("delete");
+     var myId = this._id;
+     $("#deleteId").val(myId);
+     $("#confirmDeletion").modal("show");
+     },
+ 
+    'click .js-confirm' (event, instance){
+    	var myId = $ ("#deleteId").val();
+    	   $("#"+myId).fadeOut('slow', function(){
     	imagesdb.remove({_id:myId});
     	console.log(myId);
     });
-  },
+    },
+  
   	'click .js-edit' (event, instance){
   		console.log ("let's edit");
   		var myId = this._id;
@@ -101,12 +108,16 @@ Template.myGallery.events({
 		imagesdb.update({_id:editId},
 			{$set:{
 				"title": newTitle,
-				"pathe": newPath,
+				"path": newPath,
 				"desc": newDescription
-			}}
-		);
+			}
+		});
+	},
 		// console.log("updating "+updateId+" Image with title:"+newTitle+" and its path is"+newPath+" and its description is"+newDescription);
-	}
+		'input #editPath'(event, instance){
+			$(".editHolder").attr ("src", $ ("#editPath") .val());
+			console.log($("#editPath").val());
+		}
  });
 
  
