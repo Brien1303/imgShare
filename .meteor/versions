@@ -37,6 +37,7 @@ insecure@1.0.7
 inter-process-messaging@0.1.0
 jkuester:blaze-bs4@0.15.4
 jquery@3.0.0
+kosst:css-star-rating@0.1.1
 launch-screen@1.1.1
 livedata@1.0.18
 logging@1.1.20

@@ -36,3 +36,12 @@ body {
 	width: 350px;
 		height:350px;
 }
+
+.rating > label:before {
+    /* full battery icon */
+    content: "\f13d";
+}
+.rating > .half:before {
+    /* half battery icon */
+    content: "\f13d";
+}
