@@ -11,37 +11,22 @@ body {
 	height: 250px;
 	overflow: hidden;
 }
-
-.icolor{
+.dcolor, .ecolor{
+	font-size: 2em;
+	cursor: pointer;
+}
+.dcolor{
 	color: red;
 }
-
-.mountains{
+.ecolor{
+	color: green;
+}
+.placeHolder{
 	margin-bottom: 10px;
 	width: 350px;
-		height:350px;
+	height: 250px;
 }
 
-.newcolour{
-	color:pink ;
-}
-
-.newcolour, .icolor{
-	font-size: 2em;
-	cursor:pointer;
-}
-
-.editHolder{
-	margin-bottom: 10px;
-	width: 350px;
-		height:350px;
-}
-
-.rating > label:before {
-    /* full battery icon */
-    content: "\f13d";
-}
-.rating > .half:before {
-    /* half battery icon */
-    content: "\f13d";
+#login-buttons a{
+	text-decoration: none;
 }

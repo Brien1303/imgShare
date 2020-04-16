@@ -1,138 +1,154 @@
 <head>
-	<title>Image Share Gallery</title>
+  <title>Image Share Gallery</title>
 </head>
 
 <body>
-	<div class="container">
-			{{>addImage}}
-			{{>editImage}}
-
-		{{> myGallery}}
-	</div>
+  <div class="container">
+    <div class="row justify-content-around">
+      <div class="col-9 text-center">
+        <h1 class="display-4">Welcome to Image Share Gallery</h1>
+      </div>
+    </div>
+    <div class="row my-5 justify-content-around">
+      <div class="col-4 text-center">
+        <div class="btn btn-primary">
+          {{> loginButtons}}
+        </div>
+      </div>
+    </div>
+    {{#if currentUser}}
+      {{> addImage}}
+      {{> editImage}}
+    {{/if}}
+    {{> myGallery}}
+  </div>
 </body>
 
 <template name="myGallery">
-	<div class="row">
-		{{#each allImages}}
-			<div class="col-4" id={{_id}}>
-				<div class="uniform">
-					<img class="imgs" src={{path}} alt="">
-				</div>
-				<i class="fa fa-pencil js-edit newcolour"></i>
-				<i class="fa fa-trash icolor js-delete"></i>
-				<h2>{{title}}</h2>
-				<h3>{{desc}}</h3>
-				{{>rating value = ratings picId=_id}}
-			</div>
-		{{/each}}
-		<!-- <======================================================================================> -->
-		<div class="modal fade" id="confirmDeletion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Are you sure you want to delete this image?</h5>
-
+  <div class="row">
+    {{#each allImages}}
+      <div class="col-4" id={{_id}}>
+        <div class="uniform">
+          <img class="imgs" src={{path}} alt="">
+        </div>
+        {{#if currentUser}}
+          <i class="fa fa-pencil ecolor js-edit"></i>
+          <i class="fa fa-trash dcolor js-delete"></i>
+        {{/if}}
+        <h3>{{title}}</h3>
+        <h4>{{desc}}</h4>
+        {{#if userField}}
+          <h5>by {{createdBy}}</h5>
+        {{/if}}
+        {{> rating value=ratings picId=_id}}
       </div>
-      <div class="modal-footer">
-      	<input id="deleteId"  type="hidden">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary js-confirm" data-dismiss="modal">Yes</button>
+    {{/each}}
+    <!-- ========================= -->
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Are you sure you want to delete this?</h5>
+          </div>
+          <div class="modal-footer">
+            <input id="deleteId" type="hidden">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary js-confirm" data-dismiss="modal">Yes</button>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- ========================= -->
   </div>
-</div>
-
-<!-- <=================================================================================> -->
-	</div>
 </template>
 
 <template name="addImage">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary js-addImage" data-toggle="modal" data-target="#AddImageModal">
-  add an Image
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="AddImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> <!-- modal header -->
-      		<div class="modal-body">
-      		<img src="painting.png" class=mountains>
-      		<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" >Title</span>
+  <div class="row mb-5 justify-content-around">
+    <div class="col-3 text-center">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary js-addImage" data-toggle="modal" data-target="#addImageModal">Add an image</button>
+    </div>
   </div>
- 		 <input type="text" class="form-control" id=imgTitle placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-		</div>
 
-        <div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" >Path</span>
-		  </div>
-		  <input type="text" class="form-control" id="imgPath" placeholder="Image" aria-label="Path" aria-describedby="basic-addon1">
-		</div>
-		<div class="input-group">
- 			<div class="input-group-prepend">
-    		<span class="input-group-text" >Description</span>
-  			</div>
-  			<textarea class="form-control" id="imgDescription" aria-label="With textarea"></textarea>
-		</div>
-      </div> <!-- modal body -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary js-close" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary js-saving">Save changes</button>
-      </div> <!-- modal-footer -->
-    </div> <!-- modal content -->
+  <!-- Modal -->
+  <div class="modal fade" id="addImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Image Modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img class="placeHolder" src="imgPlaceHolder.png" alt="">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            </div>
+            <input type="text" class="form-control" id="imgTitle" placeholder="Give your image a title" aria-label="Title" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Path</span>
+            </div>
+            <input type="text" class="form-control" id="imgPath" placeholder="Paste image path here" aria-label="Path" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text">Description</span>
+            </div>
+            <textarea class="form-control" aria-label="With textarea" id="imgDesc"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary js-exitAdd" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary js-saveImage">Save changes</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div> <!-- modal fade -->
-</template> <!-- Add Image -->
-
+</template>
 
 <template name="editImage">
-<!-- Modal -->
-<div class="modal fade" id="EditImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> <!-- modal header -->
-      		<div class="modal-body">
-      		<img src="painting.png" class=editHolder>
-      		<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" >Title</span>
+  <!-- Modal -->
+  <div class="modal fade" id="editImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Image Modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img class="editHolder placeHolder" src="imgPlaceHolder.png" alt="">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            </div>
+            <input type="text" class="form-control" id="editTitle" placeholder="Give your image a title" aria-label="Title" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Path</span>
+            </div>
+            <input type="text" class="form-control" id="editPath" placeholder="Paste image path here" aria-label="Path" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text">Description</span>
+            </div>
+            <textarea class="form-control" aria-label="With textarea" id="editDesc"></textarea>
+          </div>
+          <input id="editId" type="hidden">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary js-exitAdd" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary js-updateImage"  data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
   </div>
- 		 <input type="text" class="form-control" id=editTitle placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-		</div>
-
-        <div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" >Path</span>
-		  </div>
-		  <input type="text" class="form-control" id="editPath" placeholder="Image" aria-label="Path" aria-describedby="basic-addon1">
-		</div>
-		<div class="input-group">
- 			<div class="input-group-prepend">
-    		<span class="input-group-text" >Description</span>
-  			</div>
-  			<textarea class="form-control" id="editDescription" aria-label="With textarea"></textarea>
-		</div>
-		<input id="editId" type="aria-hidden">
-      </div> <!-- modal body -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary js-close" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary js-updatingImage">Save Changes</button>
-      </div> <!-- modal-footer -->
-    </div> <!-- modal content -->
-  </div>
-</div> <!-- modal fade -->
-</template> <!-- Add Image -->
+</template>

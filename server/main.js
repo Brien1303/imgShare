@@ -16,3 +16,9 @@ Meteor.startup(() => {
 		}
 	}
 });
+
+Meteor.publish('imgGallery', function () {
+  return imagesdb.find({}, {
+    // fields: { createdById: 0 }
+  });
+});
